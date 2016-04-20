@@ -2,20 +2,26 @@
 
 // BASE SETUP
 // =============================================================================
-
 // call the packages we need
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
-var User = require('./app/models/user');
-console.log(User);
+//Load Controllers
+var UsersController = require('./app/controllers/usersController');
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;        // set our port
+
+
+//Application logger
+ var log = function (inst) {
+ 	console.dir(inst.get());
+ }
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -27,6 +33,7 @@ router.get('/', function(req, res) {
 });
 // more routes for our API will happen here
 
+router.get('/user', UsersController.getAllUsers);
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

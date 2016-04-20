@@ -1,15 +1,5 @@
 var Sequelize = require("sequelize");
-
-var sequelize = new Sequelize('twitapp', 'root', 'omokhudu', {
-  host: 'localhost',
-  dialect: 'mysql',
-  freezeTableName: true,
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+var sequelize = require('../sequelize.js');
 
 var User = sequelize.define('users', {
     name: {
@@ -28,9 +18,9 @@ var User = sequelize.define('users', {
   freezeTableName: true // Model tableName will be the same as the model name
 });
 
-//uncomment force if you want to drop the old user table
+//uncomment force if you want to drop the old user table and create a new one
 // User.sync({force: true}).then(function () {
-//   // Table created
+//   // Table drop table if exist and create new one
 //   return User.create({
 //     name: 'Usman Irale',
 //     userName: 'superirale'
