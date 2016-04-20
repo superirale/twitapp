@@ -1,7 +1,9 @@
-var Sequelize = require('sequelize');
+var Sequelize = require("sequelize");
+
 var sequelize = new Sequelize('twitapp', 'root', 'omokhudu', {
   host: 'localhost',
   dialect: 'mysql',
+  freezeTableName: true,
   pool: {
     max: 5,
     min: 0,
@@ -26,6 +28,7 @@ var User = sequelize.define('users', {
   freezeTableName: true // Model tableName will be the same as the model name
 });
 
+//uncomment force if you want to drop the old user table
 // User.sync({force: true}).then(function () {
 //   // Table created
 //   return User.create({
@@ -34,4 +37,4 @@ var User = sequelize.define('users', {
 //   });
 // });
 
-module.export = User;
+module.exports = User;
