@@ -6,38 +6,41 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var flash    = require('connect-flash');
 
-//Load Controllers
-var UsersController = require('./app/controllers/usersController');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var session      = require('express-session');
+
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 var port = process.env.PORT || 8080;        // set our port
 
 
-//Application logger
- var log = function (inst) {
- 	console.dir(inst.get());
- }
-
-// ROUTES FOR OUR API
+// ROUTES
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
+//load routes
+require('./app/routes.js')(router, passport); // load our routes and pass in our app and fully configured passport
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
-// more routes for our API will happen here
-
-router.get('/user', UsersController.getAllUsers);
-
-// REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
+
+
+
 
 // START THE SERVER
 // =============================================================================
