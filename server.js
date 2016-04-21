@@ -27,6 +27,8 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+app.set('view engine', 'ejs'); // set up ejs for templating
+
 var port = process.env.PORT || 8080;        // set our port
 
 
@@ -36,8 +38,8 @@ var router = express.Router();              // get an instance of the express Ro
 //load routes
 require('./app/routes.js')(router, passport); // load our routes and pass in our app and fully configured passport
 
-// all of our routes will be prefixed with /api
-app.use('/api', router);
+// all of our routes will be prefixed with /
+app.use('/', router);
 
 
 
