@@ -1,6 +1,7 @@
 var Sequelize = require("sequelize");
+var Config = require("../config.js"); 
 
-var sequelize = new Sequelize('twitapp', 'root', 'omokhudu', {
+var sequelize = new Sequelize(Config.dbname, Config.dbuser, Config.dbpassword, {
   host: 'localhost',
   dialect: 'mysql',
   freezeTableName: true,
